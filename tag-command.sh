@@ -22,3 +22,19 @@ git show v1.0.0
 
 # Elimina la etiqueta anterior (opcional):
 git tag -d v1.0.0
+
+# clonar solo esa version
+git clone --branch v1.0.0 --depth 1 https://github.com/fgp555/tutorial.git
+# to clone the full history of the repository, you can omit the --depth 1 
+git clone --branch v1.0.0 https://github.com/fgp555/tutorial.git
+
+
+# Fetch the latest information from the remote repository
+git fetch
+
+# List all branches, including remote branches
+git branch
+git branch -a
+
+# Create and switch to a new branch
+git checkout -b nombre_de_rama
