@@ -12,7 +12,7 @@ const config = {
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
     username: process.env.DB_USERNAME,
-    password: "",
+    password: process.env.DB_PASSWORD,
     autoLoadEntities: true,
     synchronize: true,
     dropSchema: true,
