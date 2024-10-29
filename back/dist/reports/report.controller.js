@@ -17,12 +17,15 @@ const common_1 = require("@nestjs/common");
 const report_service_1 = require("./report.service");
 const create_report_dto_1 = require("./dto/create-report.dto");
 const update_report_dto_1 = require("./dto/update-report.dto");
+const platform_express_1 = require("@nestjs/platform-express");
+const multer_1 = require("multer");
+const path_1 = require("path");
 let ReportController = class ReportController {
     constructor(reportService) {
         this.reportService = reportService;
     }
-    create(createReportDto) {
-        return this.reportService.create(createReportDto);
+    async create(createReportDto, files) {
+        return this.reportService.create(createReportDto, files);
     }
     findAll() {
         return this.reportService.findAll();
@@ -40,10 +43,24 @@ let ReportController = class ReportController {
 exports.ReportController = ReportController;
 __decorate([
     (0, common_1.Post)(),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileFieldsInterceptor)([
+        { name: 't4_unstuffing_container[image]', maxCount: 1 },
+        { name: 't5_pre_existing_damage[image]', maxCount: 1 }
+    ], {
+        storage: (0, multer_1.diskStorage)({
+            destination: './uploads',
+            filename: (req, file, callback) => {
+                const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+                const ext = (0, path_1.extname)(file.originalname);
+                callback(null, `${file.fieldname}-${uniqueSuffix}${ext}`);
+            },
+        }),
+    })),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.UploadedFiles)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_report_dto_1.CreateReportDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:paramtypes", [create_report_dto_1.CreateReportDto, Object]),
+    __metadata("design:returntype", Promise)
 ], ReportController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),

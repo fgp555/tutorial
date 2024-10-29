@@ -7,7 +7,7 @@
 </head>
 <body>
   <h1>Create Report</h1>
-  <form id="reportForm" enctype="multipart/form-data">
+  <form id="reportForm">
     <!-- t0_header -->
     <h2>Header</h2>
     <input type="text" name="header_name" placeholder="Header Name" value="FLAVIO A. PREZIOSA" required /><br />
@@ -64,14 +64,13 @@
     <!-- t4_unstuffing_container -->
     <h2>Unstuffing Container</h2>
     <textarea name="notes" placeholder="Notes" required>As soon as the doors of the containers were unsealed...</textarea><br />
-    <label for="image_path">Upload Image:</label>
-    <input type="file" name="image_path" accept="image/*" required /><br />
+    <input type="text" name="image_path" placeholder="Image Path" value="https://www.example.com/img01.jpeg" required /><br />
     <input type="text" name="image_description" placeholder="Image Description" value="Image 1" required /><br />
     <input type="text" name="foot_note" placeholder="Foot Note" value="Roof panel scratched..." required /><br />
 
     <!-- t5_pre_existing_damage -->
     <h2>Pre-Existing Damage</h2>
-    <textarea name="damage_notes" placeholder="Damage Notes" required>During the stripping operation...</textarea><br />
+    <textarea name="damage_notes" placeholder="Damage Notes" required>During the stripping operation, the following exceptions were noticed...</textarea><br />
     <input type="text" name="damage_title" placeholder="Damage Title" value=". FSCU57267991 x 40-ft non-operating reefer container" required /><br />
     <input type="text" name="b_l_no" placeholder="B/L No" value="BUE238550" required /><br />
     <input type="text" name="consignee_d" placeholder="Consignee" value="BIO ABA SA" required /><br />
@@ -79,8 +78,7 @@
     <input type="number" name="qty_of_pkgs_d" placeholder="Qty of Pkgs" value="2" required /><br />
     <input type="text" name="goods_d" placeholder="Goods" value="Peptones" required /><br />
     <input type="text" name="remarks" placeholder="Remarks" value="1 pallet shrink-wrap film stretch torn off..." required /><br />
-    <label for="damage_image_path">Upload Damage Image:</label>
-    <input type="file" name="damage_image_path" accept="image/*" required /><br />
+    <input type="text" name="damage_image_path" placeholder="Damage Image Path" value="https://www.example.com/img01.jpeg" required /><br />
     <input type="text" name="damage_image_description" placeholder="Damage Image Description" value="Image 1" required /><br />
 
     <!-- t6_the_weather -->
@@ -101,87 +99,97 @@
     document.getElementById('reportForm').addEventListener('submit', async (event) => {
       event.preventDefault();
 
-      const formData = new FormData();
-
-      // t0_header
-      formData.append('t0_header[header_name]', event.target.header_name.value);
-      formData.append('t0_header[header_address]', event.target.header_address.value);
-      formData.append('t0_header[header_mobile]', event.target.header_mobile.value);
-      formData.append('t0_header[header_email]', event.target.header_email.value);
-      formData.append('t0_header[container_code]', event.target.container_code.value);
-      formData.append('t0_header[report_date]', event.target.report_date.value);
-      formData.append('t0_header[cliente_senores]', event.target.cliente_senores.value);
-      formData.append('t0_header[cliente_empresa]', event.target.cliente_empresa.value);
-      formData.append('t0_header[cliente_deposito]', event.target.cliente_deposito.value);
-      formData.append('t0_header[cliente_postal]', event.target.cliente_postal.value);
-      formData.append('t0_header[operador_area]', event.target.operador_area.value);
-      formData.append('t0_header[operador_responsables1]', event.target.operador_responsables1.value);
-      formData.append('t0_header[operador_responsables2]', event.target.operador_responsables2.value);
-      formData.append('t0_header[report_mv]', event.target.report_mv.value);
-      formData.append('t0_header[containers_reporte]', event.target.containers_reporte.value);
-      formData.append('t0_header[containers_leyenda]', event.target.containers_leyenda.value);
-      formData.append('t0_header[containers_descripcion]', event.target.containers_descripcion.value);
-      formData.append('t0_header[containers_destino]', event.target.containers_destino.value);
-      formData.append('t0_header[report_description]', event.target.report_description.value);
-      formData.append('t0_header[report_note]', event.target.report_note.value);
-
-      // t1_details_shipment
-      formData.append('t1_details_shipment[vessel]', event.target.vessel.value);
-      formData.append('t1_details_shipment[voyage]', event.target.voyage.value);
-      formData.append('t1_details_shipment[mbl_code]', event.target.mbl_code.value);
-      formData.append('t1_details_shipment[pol]', event.target.pol.value);
-      formData.append('t1_details_shipment[shipper]', event.target.shipper.value);
-      formData.append('t1_details_shipment[pod]', event.target.pod.value);
-      formData.append('t1_details_shipment[consignee]', event.target.consignee.value);
-      formData.append('t1_details_shipment[qty_of_pkgs]', event.target.qty_of_pkgs.value);
-      formData.append('t1_details_shipment[goods]', event.target.goods.value);
-      formData.append('t1_details_shipment[gross_weight]', event.target.gross_weight.value);
-
-      // T2_relevant_times
-      formData.append('T2_relevant_times[date]', event.target.date_rt.value);
-      formData.append('T2_relevant_times[container_code]', event.target.container_code_rt.value);
-      formData.append('T2_relevant_times[qty_of_pkgs]', event.target.qty_of_pkgs_rt.value);
-      formData.append('T2_relevant_times[start]', event.target.start.value);
-      formData.append('T2_relevant_times[complete]', event.target.complete.value);
-      formData.append('T2_relevant_times[time_used_to_survey]', event.target.time_used_to_survey.value);
-
-      // t3_securing_seals
-      formData.append('t3_securing_seals[container_code]', event.target.container_code_ss.value);
-      formData.append('t3_securing_seals[type]', event.target.type.value);
-      formData.append('t3_securing_seals[wwas_safety_seals]', event.target.wwas_safety_seals.value);
-      formData.append('t3_securing_seals[argentinean_customs_seal]', event.target.argentinean_customs_seal.value);
-      formData.append('t3_securing_seals[others]', event.target.others.value);
-
-      // t4_unstuffing_container
-      formData.append('t4_unstuffing_container[notes]', event.target.notes.value);
-      formData.append('t4_unstuffing_container[image_description]', event.target.image_description.value);
-      formData.append('t4_unstuffing_container[foot_note]', event.target.foot_note.value);
-      formData.append('t4_unstuffing_container[image]', event.target.image_path.files[0]);
-
-      // t5_pre_existing_damage
-      formData.append('t5_pre_existing_damage[notes]', event.target.damage_notes.value);
-      formData.append('t5_pre_existing_damage[title]', event.target.damage_title.value);
-      formData.append('t5_pre_existing_damage[b_l_no]', event.target.b_l_no.value);
-      formData.append('t5_pre_existing_damage[consignee]', event.target.consignee_d.value);
-      formData.append('t5_pre_existing_damage[marks]', event.target.marks.value);
-      formData.append('t5_pre_existing_damage[qty_of_pkgs]', event.target.qty_of_pkgs_d.value);
-      formData.append('t5_pre_existing_damage[goods]', event.target.goods_d.value);
-      formData.append('t5_pre_existing_damage[remarks]', event.target.remarks.value);
-      formData.append('t5_pre_existing_damage[image]', event.target.damage_image_path.files[0]);
-      formData.append('t5_pre_existing_damage[image_description]', event.target.damage_image_description.value);
-
-      // t6_the_weather
-      formData.append('t6_the_weather[notes]', event.target.weather_notes.value);
-      formData.append('t6_the_weather[temperature]', event.target.temperature.value);
-      formData.append('t6_the_weather[humidity]', event.target.humidity.value);
-
-      // t7_footer
-      formData.append('t7_footer[notes]', event.target.footer_notes.value);
+      const formData = {
+        t0_header: {
+          header_name: event.target.header_name.value,
+          header_address: event.target.header_address.value,
+          header_mobile: event.target.header_mobile.value,
+          header_email: event.target.header_email.value,
+          container_code: event.target.container_code.value.split(','),
+          report_date: event.target.report_date.value,
+          cliente_senores: event.target.cliente_senores.value,
+          cliente_empresa: event.target.cliente_empresa.value,
+          cliente_deposito: event.target.cliente_deposito.value,
+          cliente_postal: event.target.cliente_postal.value,
+          operador_area: event.target.operador_area.value,
+          operador_responsables1: event.target.operador_responsables1.value,
+          operador_responsables2: event.target.operador_responsables2.value,
+          report_mv: event.target.report_mv.value,
+          containers_reporte: event.target.containers_reporte.value,
+          containers_leyenda: event.target.containers_leyenda.value,
+          containers_descripcion: event.target.containers_descripcion.value,
+          containers_destino: event.target.containers_destino.value,
+          report_description: event.target.report_description.value,
+          report_note: event.target.report_note.value,
+        },
+        t1_details_shipment: {
+          vessel: event.target.vessel.value,
+          voyage: event.target.voyage.value,
+          mbl_code: event.target.mbl_code.value,
+          pol: event.target.pol.value,
+          shipper: event.target.shipper.value,
+          pod: event.target.pod.value,
+          consignee: event.target.consignee.value,
+          qty_of_pkgs: parseInt(event.target.qty_of_pkgs.value),
+          goods: event.target.goods.value,
+          gross_weight: event.target.gross_weight.value,
+        },
+        T2_relevant_times: [{
+          date: event.target.date_rt.value,
+          container_code: event.target.container_code_rt.value,
+          qty_of_pkgs: parseInt(event.target.qty_of_pkgs_rt.value),
+          start: event.target.start.value,
+          complete: event.target.complete.value,
+          time_used_to_survey: event.target.time_used_to_survey.value,
+        }],
+        t3_securing_seals: [{
+          container_code: event.target.container_code_ss.value,
+          type: event.target.type.value,
+          wwas_safety_seals: event.target.wwas_safety_seals.value,
+          argentinean_customs_seal: event.target.argentinean_customs_seal.value,
+          others: event.target.others.value,
+        }],
+        t4_unstuffing_container: {
+          notes: [event.target.notes.value],
+          images: [{
+            path: event.target.image_path.value,
+            description: event.target.image_description.value,
+          }],
+          foot_note: event.target.foot_note.value,
+        },
+        t5_pre_existing_damage: {
+          notes: [event.target.damage_notes.value],
+          damages: [{
+            title: event.target.damage_title.value,
+            b_l_no: event.target.b_l_no.value,
+            consignee: event.target.consignee_d.value,
+            marks: event.target.marks.value,
+            qty_of_pkgs: parseInt(event.target.qty_of_pkgs_d.value),
+            goods: event.target.goods_d.value,
+            remarks: event.target.remarks.value,
+            images: [{
+              path: event.target.damage_image_path.value,
+              description: event.target.damage_image_description.value,
+            }]
+          }]
+        },
+        t6_the_weather: {
+          notes: [event.target.weather_notes.value],
+          temperature: parseInt(event.target.temperature.value),
+          humidity: parseInt(event.target.humidity.value)
+        },
+        t7_footer: {
+          notes: event.target.footer_notes.value.split(',')
+        }
+      };
 
       try {
         const response = await fetch('/api/report', {
           method: 'POST',
-          body: formData
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(formData)
         });
         const data = await response.json();
         alert('Report created successfully: ' + JSON.stringify(data));

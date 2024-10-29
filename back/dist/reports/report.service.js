@@ -21,7 +21,31 @@ let ReportService = class ReportService {
     constructor(reportRepository) {
         this.reportRepository = reportRepository;
     }
-    async create(createReportDto) {
+    async create(createReportDto, files) {
+        if (files['t4_unstuffing_container[image]'] && files['t4_unstuffing_container[image]'].length > 0) {
+            createReportDto.t4_unstuffing_container = {
+                ...createReportDto.t4_unstuffing_container,
+                images: [
+                    {
+                        path: files['t4_unstuffing_container[image]'][0].path,
+                        description: createReportDto.t4_unstuffing_container?.images?.[0]?.description || 'No description provided',
+                    },
+                ],
+            };
+        }
+        if (files['t5_pre_existing_damage[image]'] && files['t5_pre_existing_damage[image]'].length > 0 && createReportDto.t5_pre_existing_damage?.damages) {
+            createReportDto.t5_pre_existing_damage.damages = createReportDto.t5_pre_existing_damage.damages.map((damage, index) => {
+                const imageFile = files['t5_pre_existing_damage[image]']?.[index];
+                if (imageFile) {
+                    damage.images = damage.images || [];
+                    damage.images.push({
+                        path: imageFile.path,
+                        description: damage.images?.[0]?.description || 'No description provided',
+                    });
+                }
+                return damage;
+            });
+        }
         const report = this.reportRepository.create(createReportDto);
         return await this.reportRepository.save(report);
     }
