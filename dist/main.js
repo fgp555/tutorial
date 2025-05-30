@@ -1,9 +1,18 @@
-const express = require('express');
+const express = require("express");
+const morgan = require("morgan");
 
 const app = express();
 
-app.get('/', (req,res)=> res.send('hello express server'));
+// Middleware
+app.use(morgan("dev")); // Muestra logs concisos en consola (GET / - 200)
 
-app.listen(3000);
+app.get("/", (req, res) => {
+  res.send("Hello Express Server 19:07");
+});
 
-console.log('http://localhost:3000/');
+// Puerto configurable con fallback
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`🚀 Server running at http://localhost:${PORT}/`);
+});
