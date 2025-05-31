@@ -7,7 +7,7 @@ const app = express();
 app.use(morgan("dev")); // Muestra logs concisos en consola (GET / - 200)
 
 app.get("/", (req, res) => {
-  res.send("Hello Express Server 19:07");
+  res.send("Hello Express Server 19:39");
 });
 
 // Puerto configurable con fallback
